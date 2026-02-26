@@ -1,0 +1,725 @@
+:root {
+  --primary: #ec4899;
+  --primary-hover: #db2777;
+  --secondary: #10b981;
+  --bg-dark: #0f172a;
+  --bg-card: rgba(30, 41, 59, 0.7);
+  --text-main: #f8fafc;
+  --text-dim: #94a3b8;
+  --accent-gradient: linear-gradient(135deg, #ec4899 0%, #10b981 100%);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  font-family: 'Prompt', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+  color: var(--text-main);
+  background-color: var(--bg-dark);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #0f172a; /* Base fallback */
+  overflow-x: hidden;
+  position: relative;
+  z-index: 0;
+}
+
+/* Background Color Layer */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #0f172a; /* Simple solid color first */
+  z-index: -2;
+}
+
+/* Rotated Image Layer - Page 1 */
+body:not(.page-2)::after {
+  content: "";
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 150vh; /* Scaled up more for safety */
+  height: 150vw;
+  background-image: url('./assets/S__16596995.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: translate(-50%, -50%) rotate(90deg);
+  z-index: -1;
+  opacity: 1; /* High visibility for testing */
+  pointer-events: none;
+}
+
+/* Background for Page 2 */
+body.page-2::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('./assets/bg2.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+  opacity: 1;
+  pointer-events: none;
+}
+
+#root {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.white-card {
+  background-color: #ffffff;
+  width: min(85%, 520px);
+  height: 500px;
+  border-radius: 24px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center horizontally/vertically content */
+  align-items: center;
+  padding: 20px;
+  color: #334155; /* Slate color for text */
+}
+
+.card-title {
+  position: absolute;
+  top: -20px; /* Moved down further */
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #5aa253; /* Changed to green */
+  z-index: 20;
+  white-space: nowrap;
+  /* Add white outline effect using text-shadow */
+  text-shadow: 
+    -2px -2px 0 #fff,  
+     2px -2px 0 #fff,
+    -2px  2px 0 #fff,
+     2px  2px 0 #fff,
+     0px  3px 5px rgba(0,0,0,0.2);
+}
+
+.ribbon {
+  position: absolute;
+  top: -40px; 
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px; /* Reverted back to original size */
+  z-index: 10;
+}
+
+.message-box-container {
+  margin-top: 40px; /* Adjusted to balance with the large title above */
+  width: 100%;
+  max-width: 440px; /* Match the content width better */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-label {
+  font-family: 'Prompt', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #db2777; /* Deep pink color */
+  margin-bottom: 4px;
+  margin-left: 4px;
+  text-align: left;
+}
+
+.name-input {
+  width: 100%;
+  padding: 12px 20px;
+  margin-bottom: 12px;
+  background-color: #fce7f3; /* Darker pink than the message box */
+  border: 2px solid #f472b6;
+  border-radius: 12px;
+  font-family: 'Prompt', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #831843;
+  outline: none;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  text-align: center; /* Fix: Align text to center */
+}
+
+.name-input:focus {
+  background-color: #fbcfe8;
+  border-color: #db2777;
+}
+
+.pink-message-box {
+  width: 100%;
+  height: 250px;
+  background-color: #fdf2f8; 
+  border: 2px dashed #f472b6; 
+  border-radius: 16px;
+  padding: 20px;
+  font-family: 'Prompt', sans-serif;
+  font-size: 1.1rem;
+  color: #831843;
+  resize: none;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box; /* Fix: Ensure padding is included in the width */
+}
+
+.pink-message-box:focus {
+  background-color: #fce7f3;
+  border-color: #ec4899;
+  box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.1);
+}
+
+.pink-message-box::placeholder {
+  color: #f9a8d4;
+}
+
+.submit-btn {
+  margin-top: 20px;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-family: 'Prompt', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%; /* Make button full width of the container */
+}
+
+.submit-btn:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 12px 20px rgba(16, 185, 129, 0.4);
+  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+}
+
+.submit-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Page 2 - Paper Stack */
+.page-2-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.paper-stack {
+  position: relative;
+  width: min(90%, 450px);
+  height: min(80vh, 600px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.paper-card {
+  position: absolute;
+  width: 80%;
+  height: 100%;
+  padding: 50px 40px;
+  background-color: #fff9e6; /* Cream color from picture */
+  box-shadow: 2px 10px 30px rgba(0,0,0,0.15);
+  border: 1px solid rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.5s ease;
+  transform-origin: center center;
+}
+
+/* Subtle paper texture */
+.paper-card::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-image: url('https://www.transparenttextures.com/patterns/white-paper.png');
+  opacity: 0.15;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+.paper-card.back {
+  transform: rotate(-6deg) translate(-25px, -15px);
+  background-color: #f7f1d4; /* Slightly darker cream */
+  z-index: 10;
+}
+
+.paper-card.middle {
+  transform: rotate(3deg) translate(20px, -5px);
+  background-color: #fffaf0; /* Slightly lighter cream */
+  z-index: 20;
+}
+
+.paper-card.front {
+  transform: rotate(-1.5deg);
+  z-index: 30;
+  background-color: #ffffff;
+  overflow: visible;
+}
+
+/* Heart-shaped photo — top right corner of empty area */
+.heart-photo-wrapper {
+  position: absolute;
+  top: 50px;
+  right: 20px;
+  width: 220px;
+  height: 220px;
+  z-index: 50;
+  filter: drop-shadow(0 6px 16px rgba(0,0,0,0.25));
+}
+
+.heart-photo {
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
+  object-position: center top;
+  clip-path: polygon(
+    50% 20%,
+    55% 14%, 60% 10%, 65% 8%, 70% 7%, 75% 8%, 79% 11%, 82% 16%, 84% 22%, 85% 28%,
+    85% 34%, 84% 40%, 82% 46%, 79% 52%, 75% 58%, 70% 64%, 65% 69%, 60% 73%, 55% 76%, 50% 78%,
+    45% 76%, 40% 73%, 35% 69%, 30% 64%, 25% 58%, 21% 52%, 18% 46%, 16% 40%, 15% 34%,
+    15% 28%, 16% 22%, 18% 16%, 21% 11%, 25% 8%, 30% 7%, 35% 8%, 40% 10%, 45% 14%
+  );
+}
+
+@keyframes heartPop {
+  from { transform: scale(0) rotate(-10deg); opacity: 0; }
+  to   { transform: scale(1) rotate(0deg);  opacity: 1; }
+}
+
+.paper-title {
+  font-family: 'Ephesis', cursive;
+  font-size: 3rem;
+  color: #5c4033; /* Dark brown charcoal color */
+  margin: 0 0 24px;
+  text-transform: none;
+  font-weight: 400;
+  text-align: left;
+  line-height: 0.8;
+}
+
+.paper-content {
+  font-family: 'Prompt', sans-serif;
+  font-size: 1.1rem;
+  color: #7d5a4a;
+  line-height: 1.8;
+  margin-top: 60px;
+}
+
+.paper-price {
+  margin-top: auto;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-style: italic;
+  color: #a67c52;
+  text-align: right;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.view-messages-btn {
+  margin-top: 50px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Prompt', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.view-messages-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(236, 72, 153, 0.4);
+  background: linear-gradient(135deg, #f472b6 0%, #ec4899 100%);
+}
+
+.view-messages-btn:active {
+  transform: translateY(0);
+}
+
+/* Page 3 - Messages List */
+.messages-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+}
+
+.messages-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.messages-title {
+  font-family: 'Prompt', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #db2777;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.back-btn {
+  padding: 10px 20px;
+  background: #ec4899;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Prompt', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 30px;
+  transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+  background: #db2777;
+  transform: translateX(-4px);
+}
+
+.loading {
+  text-align: center;
+  font-family: 'Prompt', sans-serif;
+  font-size: 1.2rem;
+  color: #db2777;
+  padding: 40px;
+}
+
+.messages-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+  padding: 20px;
+}
+
+.message-card {
+  background: #fffef9;
+  border-radius: 4px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.message-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://www.transparenttextures.com/patterns/paper.png');
+  opacity: 0.3;
+  pointer-events: none;
+  border-radius: 4px;
+}
+
+.message-card:nth-child(odd) {
+  transform: rotate(-2deg);
+}
+
+.message-card:nth-child(even) {
+  transform: rotate(2deg);
+}
+
+.message-card:nth-child(3n) {
+  transform: rotate(-1deg);
+}
+
+.message-card:hover {
+  transform: rotate(0deg) translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 24px rgba(236, 72, 153, 0.25);
+  z-index: 10;
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #fce7f3;
+}
+
+.message-name {
+  font-family: 'Prompt', sans-serif;
+  font-weight: 700;
+  color: #ec4899;
+  font-size: 1.1rem;
+}
+
+.message-date {
+  font-family: 'Prompt', sans-serif;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.message-content {
+  font-family: 'Prompt', sans-serif;
+  font-size: 1rem;
+  color: #334155;
+  line-height: 1.6;
+}
+
+/* Admin Login Page */
+.admin-login-page {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+}
+
+.admin-login-box {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  min-width: 350px;
+}
+
+.admin-login-box h1 {
+  font-family: 'Prompt', sans-serif;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+.admin-password-input {
+  width: 100%;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-family: 'Prompt', sans-serif;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.admin-password-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.admin-login-btn {
+  width: 100%;
+  padding: 12px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Prompt', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+}
+
+.admin-login-btn:hover {
+  background: #2563eb;
+}
+
+/* Admin Page */
+.admin-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+.admin-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.admin-title {
+  font-family: 'Prompt', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.admin-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.logout-btn {
+  padding: 10px 20px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Prompt', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background: #dc2626;
+}
+
+.search-box {
+  margin-bottom: 24px;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 500px;
+  padding: 12px 20px;
+  border: 2px solid #cbd5e1;
+  border-radius: 12px;
+  font-family: 'Prompt', sans-serif;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.admin-table-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Prompt', sans-serif;
+}
+
+.admin-table thead {
+  background: #1e293b;
+  color: white;
+}
+
+.admin-table th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.admin-table td {
+  padding: 16px;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.9rem;
+  color: #1e293b;
+}
+
+.admin-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.message-cell {
+  max-width: 400px;
+  word-wrap: break-word;
+}
+
+.delete-btn {
+  padding: 8px 16px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Prompt', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+  transform: scale(1.05);
+}
+
+.no-results {
+  text-align: center;
+  padding: 40px;
+  color: #64748b;
+  font-family: 'Prompt', sans-serif;
+  font-size: 1.1rem;
+}
