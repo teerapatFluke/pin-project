@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
+import { HashRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import { supabase } from './lib/supabase'
 import './index.css'
 import ribbon from './assets/ribbon.png'
@@ -429,11 +429,11 @@ function AppContent() {
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/*" element={<AppContent />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 
